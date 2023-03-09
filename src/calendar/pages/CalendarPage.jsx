@@ -5,23 +5,12 @@ import { Navbar, CalendarEvent, CalendarModal } from '../';
 
 import {  addHours } from 'date-fns';
 import { localizer, getMessagesEs } from '../../helpers';
-import { useUiStore } from '../../hooks';
-
-const events = [{
-  title: 'Infancia Misionera',
-  notes: 'Hay que comprar el pastel',
-  start: new Date(),
-  end: addHours( new Date(),2 ),
-  bgColor:'#fafafa',
-  user:{
-    _id:'123',
-    name:'Gabrieeeel'
-  }
-}];
+import { useUiStore,useCalendarStore } from '../../hooks';
 
 export const CalendarPage = () => {
   
   const { openDateModal } = useUiStore();
+  const { events } = useCalendarStore();
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week' );
 
   const eventStyleGetter = ( event, start, end, isSelected ) =>{
