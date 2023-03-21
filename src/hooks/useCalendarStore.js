@@ -20,7 +20,7 @@ export const useCalendarStore = () => {
         try {
             if( calendarEvent.id ) {
                 // Actualizando
-                await calendarApi.put(`/events/${ calendarEvent.id }`, calendarEvent );
+                await calendarApi.put(`/events/updateEvent/${ calendarEvent.id }`, calendarEvent );
                 dispatch( onUpdateEvent({ ...calendarEvent, user }) );
                 return;
             } 
@@ -41,7 +41,7 @@ export const useCalendarStore = () => {
     const startDeletingEvent = async() => {
         // Todo: Llegar al backend
         try {
-            await calendarApi.delete(`/events/${ activeEvent.id }` );
+            await calendarApi.delete(`/events/deleteEvent/${ activeEvent.id }` );
             dispatch( onDeleteEvent() );
         } catch (error) {
             console.log(error);
