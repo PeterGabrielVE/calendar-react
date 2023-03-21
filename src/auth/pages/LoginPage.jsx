@@ -1,29 +1,32 @@
-
-import { useForm } from '../../hooks';
+import { useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { useAuthStore, useForm } from '../../hooks';
 import './LoginPage.css';
 
 const loginFormFields = {
-    loginEmail: '',
+    loginEmail:    '',
     loginPassword: '',
 }
 
 const registerFormFields = {
-    registerName: '',
-    registerEmail: '',
-    registerPassword: '',
+    registerName:      '',
+    registerEmail:     '',
+    registerPassword:  '',
     registerPassword2: '',
 }
 
+
+
 export const LoginPage = () => {
 
-    const { loginEmail, loginPassword , onInputChange:onLoginInputChange } = useForm( loginFormFields );
+    const { startLogin, errorMessage, startRegister } = useAuthStore();
+
+    const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm( loginFormFields );
     const { registerEmail, registerName, registerPassword, registerPassword2, onInputChange:onRegisterInputChange } = useForm( registerFormFields );
 
-    const loginSubmit = ( event ) =>{
-
+    const loginSubmit = ( event ) => {
         event.preventDefault();
-        console.log({ loginEmail, loginPassword });
-
+        startLogin({ email: loginEmail, password: loginPassword });
     }
 
     const registerSubmit = ( event ) => {
@@ -35,6 +38,14 @@ export const LoginPage = () => {
 
         startRegister({ name: registerName, email: registerEmail, password: registerPassword });
     }
+
+
+    useEffect(() => {
+      if ( errorMessage !== undefined ) {
+        Swal.fire('Error en la autenticación', errorMessage, 'error');
+      }    
+    }, [errorMessage])
+    
 
 
 
@@ -64,7 +75,7 @@ export const LoginPage = () => {
                                 onChange={ onLoginInputChange }
                             />
                         </div>
-                        <div className="form-group mb-2">
+                        <div className="d-grid gap-2">
                             <input 
                                 type="submit"
                                 className="btnSubmit"
@@ -101,7 +112,7 @@ export const LoginPage = () => {
                             <input
                                 type="password"
                                 className="form-control"
-                                placeholder="Contraseña"
+                                placeholder="Contraseña" 
                                 name="registerPassword"
                                 value={ registerPassword }
                                 onChange={ onRegisterInputChange }
@@ -119,7 +130,7 @@ export const LoginPage = () => {
                             />
                         </div>
 
-                        <div className="form-group mb-2">
+                        <div className="d-grid gap-2">
                             <input 
                                 type="submit" 
                                 className="btnSubmit" 
